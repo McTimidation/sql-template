@@ -1,15 +1,12 @@
-FROM mcr.microsoft.com/devcontainers/python:1-3.11-bullseye
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
 
+# Set Python to run in unbuffered mode
 ENV PYTHONUNBUFFERED 1
 
-# [Optional] If your requirements rarely change, uncomment this section to add them to the image.
-# COPY requirements.txt /tmp/pip-tmp/
-# RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
-#    && rm -rf /tmp/pip-tmp
+# Install any needed packages specified in requirements.txt
+RUN apt-get update && apt-get install -y \
+    git \
+    && rm -rf /var/lib/apt/lists/*
 
-# [Optional] Uncomment this section to install additional OS packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
-
-
-
+RUN pip install --no-cache-dir psycopg2-binary
